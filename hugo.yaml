@@ -1,0 +1,44 @@
+baseURL : 'https://ChengWeiJian03.github.io'
+language : 'zh-CN'
+title : 'Home'
+theme : 'hugo-PaperMod-8.0'
+
+params:
+    ShowCodeCopyButtons: true # 是否显示代码复制按钮
+    ShowBreadCrumbs: false # 是否显示面包屑导航
+    ShowReadingTime: true  # 是否显示阅读时间  
+    ShowShareButtons: false  # 是否显示分享按钮
+    disableThemeToggle: false  # 是否禁用主题切换按钮
+    # 首页信息配置
+    homeInfoParams:
+        Title: "不想学习啊啊啊啊啊"
+        Content: '嘿，您猜怎么着，就好学习这一口'
+        
+
+menus:
+  main:
+    - name: 首页
+      pageRef: /
+      weight: 4 # 控制在页面上展示的前后顺序
+    - name: 归档
+      pageRef: archives/
+      weight: 5
+    - name: 分类
+      pageRef: categories/
+      weight: 10
+    - name: 标签
+      pageRef: tags/
+      weight: 10
+    - name: 搜索
+      pageRef: search/
+      weight: 20
+    - name: 关于
+      pageRef: about/
+      weight: 21
+
+# 如果要启用搜索功能，需要添加这个
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # 必须，用于搜索功能
