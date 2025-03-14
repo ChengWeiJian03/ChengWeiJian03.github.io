@@ -43,7 +43,7 @@ mp_restartgame 1
 轻微上抬视角 →  数值减少 ， 轻微下压视角 →  数值增加
 
 通过3-5次视角微调配合CE的数值变化扫描，最终将目标锁定在一组数据中
-![图 0](images/9ec3becc83d3a406eaac50756e5a9e3c3435f55a2cccaf8da544107a460e12f6.png)  
+![图 0](../images/9ec3becc83d3a406eaac50756e5a9e3c3435f55a2cccaf8da544107a460e12f6.png)  
 
 筛选数据(二分筛选法)
 
@@ -52,16 +52,16 @@ mp_restartgame 1
 3. 立即观察视角是否发生异常偏移
 4. 若视角变化→保留选中地址/无变化→保留未选地址
 5. 几次后能找到一个正确的数值(或者几个)，修改数值，视角变化，则确定是上下角度
-![图 1](images/8e1a2f0359f340343363cf747da67d639d36fe30ba4acb4fd7bdf580079e777d.png)  
+![图 1](../images/8e1a2f0359f340343363cf747da67d639d36fe30ba4acb4fd7bdf580079e777d.png)  
 
 选择浏览相关内存区域，寻找左右角度，一般上下角度和左右角度是连在一起的，将数据显示模式改为浮点型
 
 
-![图 2](images/86018b8439ae61829e87aa187e927c6c5b24bab356d64c45d3c10c5dd39ce33e.png)  
+![图 2](../images/86018b8439ae61829e87aa187e927c6c5b24bab356d64c45d3c10c5dd39ce33e.png)  
 
 可以在上下坐标(29.40)右侧，发现数据(-130.82)，修改右侧数据，人物画面左右移动，则确认是左右角度
 
-![图 3](images/ee57177b6a5d700195d32d26dfca0096ec77240de23f6fa74fa451b6266cf2c2.png)  
+![图 3](../images/ee57177b6a5d700195d32d26dfca0096ec77240de23f6fa74fa451b6266cf2c2.png)  
 
 由此得到：上下角度的偏移值=FBF64DA0 、 左右角度偏移值= 上下角度偏移值+4
 
@@ -71,19 +71,19 @@ mp_restartgame 1
 
 下一个访问断点
 
-![图 4](images/64c22f47b4b3020c69ea1019c4c399b6102699b40f6a9c449569ac800ead72ee.png)  
+![图 4](../images/64c22f47b4b3020c69ea1019c4c399b6102699b40f6a9c449569ac800ead72ee.png)  
 
 
 可以看到视角来源于ESI+4D90
 
 上下角度 = [ESI+4D90]   ESI=FC690010
 
-![图 5](images/1b35bf234ae5a3be4c6f6a6aa69620cd907fce44df36a169ec36b363e8c28f90.png)  
+![图 5](../images/1b35bf234ae5a3be4c6f6a6aa69620cd907fce44df36a169ec36b363e8c28f90.png)  
 
 CE中搜索 FC690010(ESI) ，看哪块内存保存了ESI的值，直接搜出来一个基址，直接拿来用就行了
 
 
-![图 6](images/4dd43ef8643a7fcf7b439711b834c7f224362a08616bb16b5684ca15d2296386.png)  
+![图 6](../images/4dd43ef8643a7fcf7b439711b834c7f224362a08616bb16b5684ca15d2296386.png)  
 
 得到 ESI=[engine.dll+58CFDC],结合上下角度 = [ESI+4D90]，得到：
 
@@ -102,20 +102,20 @@ CE中搜索 FC690010(ESI) ，看哪块内存保存了ESI的值，直接搜出来
 
 在游戏中找一个箱子，CE先搜索未知的初始值(单浮点)
 
-![图 7](images/1477470efe5beef8ee8848e34287f2104954c0eb5bf78d9b3acff024ab74fd95.png)  
+![图 7](../images/1477470efe5beef8ee8848e34287f2104954c0eb5bf78d9b3acff024ab74fd95.png)  
 
 
 跳到箱子上后CE再次搜索增加的数值
 
-![图 8](images/1e46ff82e83534cd751ae3b5e6d50d4f27f3949b6d523c69b7fb0c1cf164381f.png)  
+![图 8](../images/1e46ff82e83534cd751ae3b5e6d50d4f27f3949b6d523c69b7fb0c1cf164381f.png)  
 
 从箱子上跳下来后CE搜索减少的数值
 
-![图 9](images/64195ec4741b5996c92d4e900bd52bf84446d2d4025d453f03ed57091caed1c3.png)  
+![图 9](../images/64195ec4741b5996c92d4e900bd52bf84446d2d4025d453f03ed57091caed1c3.png)  
 
 不移动人物，进行开枪，开镜，换弹，丢枪操作后CE搜索未变动的数值，在平地上左右移动后搜索未变动的数值
 
-![图 10](images/93e785268e89a67605a5e846dd64bc8b85ab28659feb338bff3c2efaf6c5010b.png)  
+![图 10](../images/93e785268e89a67605a5e846dd64bc8b85ab28659feb338bff3c2efaf6c5010b.png)  
 
 来回反复几次，最后过滤到四百多条，基本过滤不动了，将所有的结果添加到下面，再次筛选
 
@@ -129,11 +129,11 @@ CE中搜索 FC690010(ESI) ，看哪块内存保存了ESI的值，直接搜出来
 
 注：游戏改崩了很正常，不要在意，重新来过
 
-![图 11](images/0b66d73c9f20a2309a7e5c315c0e48f02f940aa9fa3b96af46481ff8270601b4.png)  
+![图 11](../images/0b66d73c9f20a2309a7e5c315c0e48f02f940aa9fa3b96af46481ff8270601b4.png)  
 
 选择浏览相关内存区域，可以看到Z轴的数据前有两个数据，通过修改，人物前后左右移动，确定是X轴的值和Y轴的值
 
-![图 12](images/64c8f70fde9b69ec14635226c50804b681183e31a63996041af74aaffaaa9bde.png)  
+![图 12](../images/64c8f70fde9b69ec14635226c50804b681183e31a63996041af74aaffaaa9bde.png)  
 
 得到：
 
@@ -179,25 +179,25 @@ bot_add_ct
 
 自己站的比敌人高则搜索值小于***(自己坐标)，此时站得比CT高，自己的z轴是56，搜索值小于56
 
-![图 13](images/7c2ffc747797d11e2ba319c30fd909661ad6bb6252b1af9f5f2b27f3660f1b28.png)  
+![图 13](../images/7c2ffc747797d11e2ba319c30fd909661ad6bb6252b1af9f5f2b27f3660f1b28.png)  
 
 自己站的比敌人高则搜索值小于***(自己坐标)，此时站得比CT低，自己的z轴是-102，搜索值大于-102
-![图 14](images/85c54224a2c470e08385f45bc6efcbf39e7cd4b354915decc3f5f864947f107d.png)  
+![图 14](../images/85c54224a2c470e08385f45bc6efcbf39e7cd4b354915decc3f5f864947f107d.png)  
 
 此时和CT同一高度，则搜索值等于0.27
 
-![图 15](images/ff0581e14906fca8b1fac43f2e783f9cc19d98fac1be7092d73bf779199302e0.png)  
+![图 15](../images/ff0581e14906fca8b1fac43f2e783f9cc19d98fac1be7092d73bf779199302e0.png)  
 
 
 期间可以通过bot_stop 1 指令使机器人停止活动，以方便查找
 
 经过几次重复可以找到几百个值，选取修改，如果修改后人物浮空，则说明正确的值在其中，则删除另外一半的值，反复几次，得到一个正确的偏移值
 
-![图 16](images/a35751b01390b2a25911ff2b71151be57c77b122f6adb0272fc41069616863d0.png)  
+![图 16](../images/a35751b01390b2a25911ff2b71151be57c77b122f6adb0272fc41069616863d0.png)  
 
 选择浏览相关内存区域，显示类型改成单浮点，可以看到敌人的X轴和Y轴
 
-![图 17](images/908e37cf2c5717eccad874fe53bff3e05d099cde7a8252a911395022a54e176d.png)  
+![图 17](../images/908e37cf2c5717eccad874fe53bff3e05d099cde7a8252a911395022a54e176d.png)  
 
 ### 通过偏移值寻找基址
 
@@ -209,20 +209,20 @@ bot_add_ct
 
 选择查看内存，分析数据结构
 
-![图 18](images/fcb6336535d2be627ded4541e07efcef9cc49978e4b31230bc7b620997d4b31c.png)  
+![图 18](../images/fcb6336535d2be627ded4541e07efcef9cc49978e4b31230bc7b620997d4b31c.png)  
 
 
 在框中输入client.dll+0x4DDD91C，选择 结构->定义新结构，得到如下视图,可以发现，每个指向C_CSPlayer对象的指针之间都差0x10
 
-![图 19](images/ef85c6cf5733570dcebe9048cc6bf3780cb34d5b942a24aed2e354983f75431f.png)  
+![图 19](../images/ef85c6cf5733570dcebe9048cc6bf3780cb34d5b942a24aed2e354983f75431f.png)  
 
 点开一个结构，可以在A8处看见人物的Z轴坐标
 
-![图 20](images/b627e5db48f96bfe5326a794f8fafc09a221ef94ecda58ccb37b4f31b9ceee9b.png)  
+![图 20](../images/b627e5db48f96bfe5326a794f8fafc09a221ef94ecda58ccb37b4f31b9ceee9b.png)  
 
 在100处看见人物的血量
 
-![图 21](images/adbae449034a27ba2e47c11697e494494568660791f7777406e24f70d33b6aaf.png)  
+![图 21](../images/adbae449034a27ba2e47c11697e494494568660791f7777406e24f70d33b6aaf.png)  
 
 则可以得到
 
@@ -261,7 +261,7 @@ array[0][0]不开镜的时候小于1
 
 可以在内存里看到矩阵
 
-![图 22](images/12f4c42356864f9339dba45b20dbc267ae9fa941c62f075eda546bffcdf833e2.png)  
+![图 22](../images/12f4c42356864f9339dba45b20dbc267ae9fa941c62f075eda546bffcdf833e2.png)  
 
 
 ## 至此，找偏移的部分就结束了
