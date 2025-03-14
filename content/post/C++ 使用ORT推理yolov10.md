@@ -8,7 +8,6 @@ draft: false
 lang: ''
 ---
 
-# C++ 使用ort推理yolov10
 
 ## 环境
 

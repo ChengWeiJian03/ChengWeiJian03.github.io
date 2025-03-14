@@ -8,8 +8,6 @@ draft: false
 lang: ''
 ---
 
-# 第三部分 过PG保护的内核HOOK
-
 ## 3.1 什么是PG保护
 
 Windows写了一个程序叫Patch Guard 在Windows内核的关键位置加上了监控，一旦被修改就会触发蓝屏，蓝屏是作为一种惩罚机制存在的

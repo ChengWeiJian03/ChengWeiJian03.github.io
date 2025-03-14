@@ -8,8 +8,6 @@ draft: false
 lang: ''
 ---
 
-# 第五部分 过 VKG 的 LAT 保护
-
 关键字：LAT表(导入表)
 
 ## 什么是LAT保护

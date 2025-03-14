@@ -7,7 +7,6 @@ categories: '杂项'
 draft: false 
 lang: ''
 ---
-# C++ 学生管理系统
 
 一道非常经典的C语言题目，用C++实现
  

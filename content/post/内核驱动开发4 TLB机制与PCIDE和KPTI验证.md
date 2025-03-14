@@ -8,7 +8,6 @@ draft: false
 lang: ''
 ---
 
-# 第四部分 TLB机制和PCID和KPTI验证
 
 ## 1. 什么是TLB
 
