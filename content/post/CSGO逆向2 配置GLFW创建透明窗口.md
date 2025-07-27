@@ -14,34 +14,27 @@ Visual Studio 2017
 在github上下载GLFW https://github.com/glfw/glfw，github上的版本会比官网的高
 
 解压后使用Visual Studio打开文件夹
-
-<div>
-<img src="../images/1996357-20220926181002574-1293648422.png" width="300" align="left">
-</div>
+![](../images/1996357-20220926181002574-1293648422.png)
 
 选择生成32位项目
 
-<div>
-<img src="../images/1996357-20220926181755027-1633942424.png" width="300" align="left">
-</div>
+![](../images/1996357-20220926181755027-1633942424.png)
+
 选择全部重新生成，然后选择 安装->glfw
 
-<img src="../images/1996357-20220926181501300-1518068329.png" width="600" align="left">
+![](../images/1996357-20220926181501300-1518068329.png)
 
- 在下面的生成信息可以看到需要的文件生成的位置
-<div>
-<img src="../images/1996357-20220926182306712-1652465164.png" width="600" align="left">
-</div>
+在下面的生成信息可以看到需要的文件生成的位置
+
+![](../images/1996357-20220926182306712-1652465164.png)
 
 打开后，将include、lib文件夹复制到自己的工程文件夹
 
-<img src="../images/1996357-20220926182410735-1346363255.png" width="300" align="left">
+![](../images/1996357-20220926182410735-1346363255.png)
 
 加入后配置自己的工程
 
-<div>
-<img src="../images/1996357-20220926183509014-324508360.png" width="600" align="left">
-</div>
+![](../images/1996357-20220926183509014-324508360.png)
 
 项目属性->c/c++ ->常规 下的附加包含目录，输入$(ProjectDir)include 添加
 
@@ -123,21 +116,15 @@ glewInit(); （增加的代码)，成功运行则配置成功
 
 在自己项目的include文件夹下新建一个imgui文件夹，将imgui-master中以下的文件复制进去
 
-<div>
-<img src="../images/1996357-20220926190623704-1254585783.png" width="200" align="left">
-</div>
+![](../images/1996357-20220926190623704-1254585783.png)
 
 打开imgui的**example**项目，找到**example_glfw_opengl3**，在自己项目include文件夹中，创建这五个同名文件，将内容保存进去（其实就是把这几个文件也复制过去）
 
-<div>
-<img src="../images/1996357-20220926190703810-1639763001.png" width="200" align="left">
-</div>
+![](../images/1996357-20220926190703810-1639763001.png)
 
 在自己的项目中新建筛选器（imgui），添加现有项，将include/imgui文件夹里的cpp文件都添加进去
 
-<div>
-<img src="../images/1996357-20220926190737425-1617023168.png" width="200" align="left">
-</div>
+![](../images/1996357-20220926190737425-1617023168.png)
 
 测试代码，如果正常创建则环境正常
 
@@ -228,10 +215,10 @@ int main(int, char**)
     // - Read 'docs/FONTS.md' for more instructions and details.
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
     //io.Fonts->AddFontDefault();
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
-    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/ProggyTiny.ttf", 10.0f);
+    //io.Fonts->AddFontFromFileTTF("//misc/fonts/Roboto-Medium.ttf", 16.0f);
+    //io.Fonts->AddFontFromFileTTF("//misc/fonts/Cousine-Regular.ttf", 15.0f);
+    //io.Fonts->AddFontFromFileTTF("//misc/fonts/DroidSans.ttf", 16.0f);
+    //io.Fonts->AddFontFromFileTTF("//misc/fonts/ProggyTiny.ttf", 10.0f);
     //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
     //IM_ASSERT(font != NULL);
 
@@ -407,6 +394,4 @@ int main()
     return 0;
 }
 ```
-<div>
-<img src="../images/1996357-20220930173643250-2087903430.png" width="600" align="left">
-</div>
+![](../images/1996357-20220930173643250-2087903430.png)
