@@ -702,9 +702,9 @@ params:
     # 用例： `名称:图像地址`
     # Donate type
     # Usage: `name:image url`
-    reward:
-      wechatpay: /imgs/wechat-pay.png
-      alipay: /imgs/ali-pay.png
+    # reward:
+    #   wechatpay: /imgs/wechat-pay.png
+    #   alipay: /imgs/ali-pay.png
       #paypal: /images/paypal.png
       #bitcoin: /images/bitcoin.png
 
