@@ -344,10 +344,10 @@ params:
 
   # 用户自定义文件配置
   # Define custom file paths.
-  # customFilePath:
-  #   sidebar: custom_sidebar.html
-  #   footer: custom_footer.html
-  #   style: /css/custom_style.css
+  customFilePath:
+    # sidebar: custom_sidebar.html
+    footer: custom_footer.html
+    style: /css/custom_style.css
 
   # 知识共享国际许可 4.0
   # 更多信息： https://creativecommons.org/about/cclicenses/
@@ -567,7 +567,7 @@ params:
     # Beian ICP and gongan information for Chinese users. 
     # See: https://beian.miit.gov.cn, http://www.beian.gov.cn
     beian:
-      enable: true
+      enable: false
       # ICP 备案的具体信息
       icp: 粤ICP备 18047355-1 号
       # 公安网备的省份简称
@@ -578,7 +578,7 @@ params:
     # 站点支持供应商列表
     # Vendors list who support website. 
     vendors:
-      enable: true
+      enable: false
       # 支持说明
       # Some support information description.
       title: 提供CDN/云资源支持
@@ -1308,7 +1308,7 @@ params:
   # Canvas ribbon
   # For more information: https://github.com/hustcc/ribbon.js
   canvasRibbon:
-    enable: false
+    enable: true
     size: 300 # The width of the ribbon
     alpha: 0.6 # The transparency of the ribbon
     zIndex: -1 # The display level of the ribbon
