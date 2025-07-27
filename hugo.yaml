@@ -265,10 +265,10 @@ menus:
       pre: user
       weight: 3
     - identifier: flinks
-      name: 友情链接
-      pageRef: /flinks
-      pre: thumbs-up
-      weight: 3
+      # name: 友情链接
+      # pageRef: /flinks
+      # pre: thumbs-up
+      # weight: 3
     # - identifier: example
     #   name: 语法示例
     #   pre: angles-down
@@ -332,11 +332,11 @@ params:
 
   # 不同尺寸站点图标
   # Different size of favicon
-  # favicon:
-  #   icon: /imgs/icons/favicon.ico
-  #   small: /imgs/icons/favicon_16x16_next.png
-  #   medium: /imgs/icons/favicon_32_32_next.png
-  #   appleTouchIcon: /imgs/icons/apple_touch_icon_next.png
+  favicon:
+    icon: /imgs/icons/favicon.ico
+    small: /imgs/icons/favicon_16x16_next.png
+    medium: /imgs/icons/favicon_32_32_next.png
+    appleTouchIcon: /imgs/icons/apple_touch_icon_next.png
 
   # 自定义 Logo （目前只支持 Mist 页面模式）
   # Custom Logo (Warning: Only support scheme Mist)
@@ -456,7 +456,7 @@ params:
       # 组件类型，可选值为： 51la, busuanzi
       # 使用51la时需要注册账号：https://invite.51.la/
       # Plguin value is: 51la, busuanzi
-      plugin: busuanzi
+      plugin: 51la
 
   # 社交链接地址
   # 用法： `Key: 名称 || 链接地址 || 图标`
