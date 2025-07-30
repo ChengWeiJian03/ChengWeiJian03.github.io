@@ -1,9 +1,8 @@
 ---
 title: CSGO逆向3 写出一个透视
 published: 2022-09-27
-description: "
-我们将结合上面两篇文章来写出一个简单的透视
-"
+description: "我们将结合上面两篇文章来写出一个简单的透视"
+weight: 1
 toc: false
 tags: [逆向, CSGO]
 ---
