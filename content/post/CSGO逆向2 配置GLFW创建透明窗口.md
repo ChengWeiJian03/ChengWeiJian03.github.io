@@ -1,6 +1,6 @@
 ---
 title: CSGO逆向2 配置GLFW+imgui创建透明窗口
-published: 2025-03-29T14:48:54+08:00
+published: 2022-09-26
 description: "配置好一个透明窗口,随后只要用imgui在这个透明窗口上绘制人物坐标,一个透视就写好了,我们下一篇文章就会写出一个透视来,我在2025年更新了一次文章,imgui属于老技术了,容易被检测到了"
 toc: false
 tags: [逆向, CSGO]
