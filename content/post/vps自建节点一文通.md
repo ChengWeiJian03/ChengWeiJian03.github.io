@@ -4,6 +4,7 @@ published: 2025-03-29T14:48:54+08:00
 description: "本文包括关于自建节点所需要了解的一切"
 toc: false
 tags: [vps, 自建节点,科学上网]
+weight: 3
 ---
 
 
