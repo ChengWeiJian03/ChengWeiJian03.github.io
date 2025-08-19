@@ -303,13 +303,12 @@ params:
   # 需要显示文章的部分，即content目录下的文件夹名称
   # Sections for show in home & archive page 
   # and it's folder name which under content
+
   mainSections: ["post"]
-  # 年，月，日及时间的格式化样式
-  # Format style for year,month,date & time
   yearFormat: "2006"
-  monthFormat: "07-27"
-  dateFormat: "2006/07-27"
-  timeFormat: "2006/07-27 15:04:05 -07:00"
+  monthFormat: "2006/01"           # 年/月：正确
+  dateFormat: "2006/01/02"         # ✅ 正确：年/月/日
+  timeFormat: "2006/01/02 15:04:05" # ✅ 建议去掉 -0700，除非你需要时区
 
   # 页面模式
   # Schemes
