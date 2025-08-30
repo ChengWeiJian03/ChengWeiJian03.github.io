@@ -15,6 +15,8 @@ tags: [yolo, onnxruntime]
 - opencv4.9
 - visual studio2022
 
+<!--more-->
+
 ## 1. 环境配置
 
 ### 1.1 OpenCV环境配置
