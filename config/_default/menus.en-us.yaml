@@ -28,7 +28,6 @@ main:
     pageRef: /post/10-math-formula
     weight: 2   
     parent: example
-    parent: example
   - identifier: flow-charts
     name: Flow Charts
     pageRef: /post/11-mermaid-charts
