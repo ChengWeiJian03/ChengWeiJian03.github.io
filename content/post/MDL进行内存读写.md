@@ -1,0 +1,187 @@
+---
+title: MDL进行内存读写
+date: 2024-11-18
+toc: false
+tags: [内核驱动]
+weight: 4
+---
+
+##  1. 什么是MDL
+
+MDL（Memory Descriptor List，内存描述符列表）,用于描述物理内存页的一个结构体，用于处理非连续的物理内存块，对非连续的物理内存进行读写
+
+## 2. 我们为什么需要使用MDL
+
+如果一块内存只拥有读权限，那么用memcopy()是无法写入的(由于memcopy是访问虚拟内存),因此需要用MDL来直接管理物理内存,我们把物理内存映射到MDL结构体中,通过改变MDL结构体来进行修改,则可以完成访问
+
+## 3. 如何实现
+
+1. 我们需要一个结构体来储存MDL上下文信息和映射后的虚拟地址
+
+    ```C++
+    typedef struct _REPROTECT_CONTEXT
+    {
+        PMDL Mdl;
+        PUCHAR lockedVa;
+
+    }REPROTECT_CONTEXT,*PREPROTECT_CONTEXT;
+    ```
+
+2. 调用`IoAllocateMdl`函数为给定的虚拟地址Va和长度Length分配一个MDL,注:IoAllocateMdl只是保留了地址,并没有给出映射后的虚拟地址
+    ```C++
+    NTSTATUS status;
+    status = STATUS_SUCCESS;
+    ReprotectContext->Mdl = 0;
+    ReprotectContext->lockedVa = 0;
+    //Va是要用mdl描述的物理地址的虚拟地址
+    //IRP 是用于三环和零环通信的，这边并没有申请内存给Va，在下面申请，这边可以理解为是一个reserve操作,这边保留了一块地址。但没有给出对应的虚拟地址
+    ReprotectContext->Mdl = IoAllocateMdl(Va, Length,FALSE,FALSE,NULL);
+    if (!ReprotectContext->Mdl)
+    {
+        DbgPrintEx(102, 0, "申请内存失败");
+        return STATUS_INSUFFICIENT_RESOURCES;
+    }
+    ```
+3. 使用`MmProbeAndLockPages`来探测并锁定虚拟地址对应的物理页，防止这些页被分页出内存。锁定的内存不会被操作系统换出到硬盘
+    ```C++
+    __try //微软要求用的,在高IRQL（中断请求级别）无效
+    {
+        //探测物理内存的属性并且锁定（锁定的意义是让他不进行分页，非分页内存不会被交换出去）
+        MmProbeAndLockPages(ReprotectContext->Mdl, KernelMode, IoReadAccess);
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    {
+        DbgPrintEx(102, 0,"异常");
+        return GetExceptionCode();
+    }
+    ```
+
+4. 使用`MmMapLockedPagesSpecifyCache`将锁定的物理页映射到系统虚拟地址空间
+    ```C++
+    // 将分配好的地址给出 commit
+    ReprotectContext->lockedVa =(PUCHAR)MmMapLockedPagesSpecifyCache(ReprotectContext->Mdl,KernelMode, MmCached,NULL,FALSE,NormalPagePriority );
+    
+    if (!ReprotectContext->lockedVa)
+    {
+        IoFreeMdl(ReprotectContext->Mdl);
+        ReprotectContext->Mdl = 0;
+    
+        DbgPrintEx(102, 0, "映射失败");
+        return STATUS_UNSUCCESSFUL;
+    }
+    ```
+
+5. 使用`MmProtectMdlSystemAddress`将映射的内存设置为可执行和可读写
+    ```C++
+    status = MmProtectMdlSystemAddress(ReprotectContext->Mdl, PAGE_EXECUTE_READWRITE);
+    
+    if(!NT_SUCCESS(status))
+    {
+        DbgPrintEx(102, 0, "保护失败");
+        MmUnmapLockedPages(ReprotectContext->lockedVa, ReprotectContext->Mdl);
+        MmUnlockPages(ReprotectContext->Mdl);
+        IoFreeMdl(ReprotectContext->Mdl);
+        ReprotectContext->Mdl = 0;
+        ReprotectContext->lockedVa = 0;
+        return status;
+    }
+    ```
+
+6. 释放资源
+   ```C++
+    NTSTATUS MmUnlockVaForWrite(PREPROTECT_CONTEXT ReprotectContext)
+    {
+        NTSTATUS status;
+        status = STATUS_SUCCESS;
+        MmUnmapLockedPages(ReprotectContext->lockedVa, ReprotectContext->Mdl);
+        MmUnlockPages(ReprotectContext->Mdl);
+        IoFreeMdl(ReprotectContext->Mdl);
+        ReprotectContext->Mdl = 0;
+        ReprotectContext->lockedVa = 0;
+        return status;
+    }
+   ```
+
+
+## 4. 完整代码
+
+**已经在x64HOOK中使用,就不单独添加工程项目了,文件名:MDL.cpp**
+```C++
+#pragma once
+#include <ntifs.h>
+#include <ntddk.h>
+
+typedef struct _REPROTECT_CONTEXT
+{
+	PMDL Mdl;
+	PUCHAR lockedVa;
+
+}REPROTECT_CONTEXT,*PREPROTECT_CONTEXT;
+
+// 用于开辟用MDL描述的缓冲区
+NTSTATUS MmLockVaForWrite(PVOID Va,ULONG Length,__out PREPROTECT_CONTEXT ReprotectContext)
+{
+	NTSTATUS status;
+	status = STATUS_SUCCESS;
+	ReprotectContext->Mdl = 0;
+	ReprotectContext->lockedVa = 0;
+	//Va是要用mdl描述的物理地址的虚拟地址
+	//IRP 是用于三环和零环通信的，这边并没有申请内存给Va，在下面申请，这边可以理解为是一个reserve操作,这边保留了一块地址。但没有给出对应的虚拟地址
+	ReprotectContext->Mdl = IoAllocateMdl(Va, Length,FALSE,FALSE,NULL);
+	if (!ReprotectContext->Mdl)
+	{
+		DbgPrintEx(102, 0, "申请内存失败");
+		return STATUS_INSUFFICIENT_RESOURCES;
+	}
+	__try //微软要求用的,在高IRQL（中断请求级别）无效
+	{
+		//探测物理内存的属性并且锁定（锁定的意义是让他不进行分页，非分页内存不会被交换出去）
+		MmProbeAndLockPages(ReprotectContext->Mdl, KernelMode, IoReadAccess);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		DbgPrintEx(102, 0,"异常");
+		return GetExceptionCode();
+	}
+	// 将分配好的地址给出 commit
+	ReprotectContext->lockedVa =(PUCHAR)MmMapLockedPagesSpecifyCache(ReprotectContext->Mdl,KernelMode, MmCached,NULL,FALSE,NormalPagePriority );
+
+	if (!ReprotectContext->lockedVa)
+	{
+		IoFreeMdl(ReprotectContext->Mdl);
+		ReprotectContext->Mdl = 0;
+
+		DbgPrintEx(102, 0, "映射失败");
+		return STATUS_UNSUCCESSFUL;
+	}
+
+	status = MmProtectMdlSystemAddress(ReprotectContext->Mdl, PAGE_EXECUTE_READWRITE);
+
+	if(!NT_SUCCESS(status))
+	{
+		DbgPrintEx(102, 0, "保护失败");
+		MmUnmapLockedPages(ReprotectContext->lockedVa, ReprotectContext->Mdl);
+		MmUnlockPages(ReprotectContext->Mdl);
+		IoFreeMdl(ReprotectContext->Mdl);
+		ReprotectContext->Mdl = 0;
+		ReprotectContext->lockedVa = 0;
+		return status;
+	}
+	
+	return status;
+}
+
+
+NTSTATUS MmUnlockVaForWrite(PREPROTECT_CONTEXT ReprotectContext)
+{
+	NTSTATUS status;
+	status = STATUS_SUCCESS;
+	MmUnmapLockedPages(ReprotectContext->lockedVa, ReprotectContext->Mdl);
+	MmUnlockPages(ReprotectContext->Mdl);
+	IoFreeMdl(ReprotectContext->Mdl);
+	ReprotectContext->Mdl = 0;
+	ReprotectContext->lockedVa = 0;
+	return status;
+}
+
+```
