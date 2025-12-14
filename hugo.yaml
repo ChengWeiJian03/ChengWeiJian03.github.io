@@ -265,7 +265,6 @@ menus:
       pageRef: /about
       pre: user
       weight: 3
-    - identifier: flinks
       # name: 友情链接
       # pageRef: /flinks
       # pre: thumbs-up
