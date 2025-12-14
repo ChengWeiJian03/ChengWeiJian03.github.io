@@ -734,7 +734,7 @@ waline3:
   search: true
   imgUploader: false
   wordLimit: 200
-  requiredMeta: ['nick', 'mail']
+  requiredMeta: ['nick']
   reaction: true
   reactionText: [ '点赞', '踩一下', '得意', '不屑', '尴尬', '睡觉']
   reactionTitle: "你认为这篇文章怎么样？"
