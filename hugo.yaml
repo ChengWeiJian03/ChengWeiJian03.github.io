@@ -317,10 +317,6 @@ params:
   #scheme: Pisces
   scheme: Gemini
 
-  # 开启暗模式
-  # Dark Mode
-  darkmode: false
-
 
   # 站点基本信息
   # Site Information Settings
@@ -762,7 +758,7 @@ params:
     copyBtn: true
     # 代码块的默认显示行高
     # Default max height of codeblock.
-    maxHeight: 500
+    maxHeight: 30
 
   # 返回顶部设置
   # Backtop settings
