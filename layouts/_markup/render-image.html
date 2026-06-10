@@ -1,0 +1,5 @@
+{{- $destination := .Destination -}}
+{{- if strings.HasPrefix $destination "images/" -}}
+  {{- $destination = printf "../%s" $destination -}}
+{{- end -}}
+<img src="/imgs/img-lazy-loading.gif" data-src="{{ $destination | safeURL }}" alt="{{ .Text }}" {{ with .Title}} title="{{ . }}"{{ end }} />
