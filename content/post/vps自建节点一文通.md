@@ -218,7 +218,7 @@ https://你的服务器IP:端口/路径
 在VPS上执行以下脚本即可
 `curl https://raw.githubusercontent.com/zhucaidan/mtr_trace/main/mtr_trace.sh|bash  # 检测回程脚本`
 
- ![image-20260719111234451](images\image-20260719111234451.png)
+ ![image-20260719111234451](images/image-20260719111234451.png)
 
 ### 3.2 网络拥塞策略
 
